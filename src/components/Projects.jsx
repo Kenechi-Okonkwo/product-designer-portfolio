@@ -1,15 +1,6 @@
-// Import React and useState for the active filter tab
-import React, { useState, useEffect } from 'react'
-
-// Framer Motion for card entrance animations and layout transitions
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-
-// useRef to observe the section entering the viewport
-import { useRef } from 'react'
-
-// Icons
 import { HiArrowTopRightOnSquare, HiXMark } from 'react-icons/hi2'
-import { HiEye } from 'react-icons/hi'
 
 // Import project data and filter tab definitions from the data file
 import { projects, filterTabs } from '../data/projects'
@@ -90,11 +81,8 @@ function CaseStudyModal({ project, onClose }) {
 }
 
 // ── PROJECT CARD ──────────────────────────────────────────────────────────────
-// Renders a single project as an interactive card
+// Clicking anywhere opens the case study modal — no hover overlay
 function ProjectCard({ project, index, onOpenCaseStudy }) {
-  // hovered — tracks whether the mouse is over this card
-  const [hovered, setHovered] = useState(false)
-
   return (
     <motion.div
       layout
@@ -102,96 +90,71 @@ function ProjectCard({ project, index, onOpenCaseStudy }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="card group cursor-pointer flex flex-col overflow-hidden"
+      onClick={() => onOpenCaseStudy(project)}
+      className="card group cursor-pointer flex flex-col overflow-hidden
+                 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/10
+                 transition-all duration-300"
     >
-      {/* ── IMAGE AREA ──────────────────────────────────────────────────── */}
-      {/* Fixed aspect ratio container — hover overlay lives here only */}
-      <div
-        className="relative overflow-hidden"
-        style={{ aspectRatio: '16 / 9' }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
+      {/* ── IMAGE / THUMBNAIL ───────────────────────────────────────────── */}
+      <div className="relative overflow-hidden" style={{ aspectRatio: '16 / 9' }}>
         {project.image ? (
           <img
             src={import.meta.env.BASE_URL + project.image}
             alt={project.name}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover
+                       transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
         ) : (
           <>
             <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-60`} />
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                backgroundSize: '20px 20px',
-              }}
-              aria-hidden="true"
-            />
+            <div className="absolute inset-0 opacity-10 flex items-center justify-center
+                            text-7xl select-none"
+                 aria-hidden="true">
+              {project.emoji}
+            </div>
           </>
         )}
 
-        {/* ── HOVER OVERLAY — scoped to the image ─────────────────────── */}
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute inset-0 z-20 bg-bg/95 backdrop-blur-sm p-6 flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-2xl mb-3 block">{project.emoji}</span>
-                <h3 className="font-display font-bold text-lg text-white mb-3">{project.name}</h3>
-                <p className="text-muted text-sm leading-relaxed">{project.description}</p>
-              </div>
-
-              <div className="flex gap-3 mt-4">
-                <button
-                  onClick={(e) => { e.stopPropagation(); onOpenCaseStudy(project) }}
-                  className="flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent-dark transition-colors duration-200"
-                >
-                  <HiEye size={16} />
-                  Case Study
-                </button>
-                <button className="flex items-center gap-2 px-4 py-2 bg-surface border border-border text-white text-sm font-semibold rounded-lg hover:border-accent/50 transition-colors duration-200">
-                  <HiArrowTopRightOnSquare size={16} />
-                  View Live
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Category badge — top right corner of image */}
+        <span className="absolute top-3 right-3 px-3 py-1 bg-black/60 backdrop-blur-sm
+                         rounded-full text-xs text-muted font-medium uppercase tracking-wider
+                         border border-white/10">
+          {project.category}
+        </span>
       </div>
 
-      {/* ── INFO BELOW IMAGE ────────────────────────────────────────────── */}
-      <div className="p-4">
-        {/* Emoji + category badge on the same row */}
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl">{project.emoji}</span>
-          <span className="px-3 py-1 bg-surface border border-border rounded-full text-xs text-muted font-medium uppercase tracking-wider">
-            {project.category}
-          </span>
+      {/* ── CARD BODY ───────────────────────────────────────────────────── */}
+      <div className="p-5 flex flex-col flex-1">
+        {/* Emoji + name row */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-xl">{project.emoji}</span>
+          <h3 className="font-display font-bold text-base text-white">{project.name}</h3>
         </div>
 
-        {/* Project name and tagline */}
-        <h3 className="font-display font-bold text-base text-white mb-1">{project.name}</h3>
-        <p className="text-muted text-sm">{project.tagline}</p>
+        {/* Tagline */}
+        <p className="text-accent text-xs font-medium mb-3">{project.tagline}</p>
+
+        {/* Description — always visible, clamped to 3 lines */}
+        <p className="text-muted text-sm leading-relaxed mb-4 line-clamp-3">
+          {project.description}
+        </p>
 
         {/* Tech tags */}
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="flex flex-wrap gap-2 mt-auto">
           {project.tech.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-0.5 bg-surface border border-border rounded text-xs text-muted"
-            >
+            <span key={tag}
+                  className="px-2 py-0.5 bg-surface border border-border rounded
+                             text-xs text-muted">
               {tag}
             </span>
           ))}
         </div>
+
+        {/* "Tap to view" hint */}
+        <p className="text-muted/50 text-xs mt-4 group-hover:text-accent/60 transition-colors duration-300">
+          Click to view case study →
+        </p>
       </div>
     </motion.div>
   )
