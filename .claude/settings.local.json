@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.jonathanpatterson.com)",
+      "WebFetch(domain:www.mackenziechild.me)",
+      "PowerShell($env:PATH += \";C:\\\\Program Files\\\\nodejs;$env:APPDATA\\\\npm\"; Get-Command npm -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source)"
+    ]
+  }
+}

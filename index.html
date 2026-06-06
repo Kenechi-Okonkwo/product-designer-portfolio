@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- Root HTML document — the single page that hosts the React app -->
+<html lang="en">
+
+  <head>
+    <!-- Character encoding — ensures all text (including special characters) renders correctly -->
+    <meta charset="UTF-8" />
+
+    <!-- Favicon — the small icon shown in browser tabs -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Viewport meta tag — makes the site responsive on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO meta description — shown in Google search results -->
+    <meta name="description" content="Kene Okonkwo — UI/UX Designer & Developer crafting pixel-perfect, user-centered digital products." />
+
+    <!-- Open Graph meta tags — controls how the page appears when shared on social media -->
+    <meta property="og:title" content="Kene Okonkwo | UI/UX Designer & Developer" />
+    <meta property="og:description" content="Turning complex problems into clean, functional interfaces backed by solid code." />
+    <meta property="og:type" content="website" />
+
+    <!-- Page title shown in browser tab -->
+    <title>Kene Okonkwo | UI/UX Designer & Developer</title>
+
+    <!-- Google Fonts preconnect — establishes early connection to speed up font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Load Space Grotesk (display/headings) and Inter (body) from Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- The root div — React mounts the entire app into this single element -->
+    <div id="root"></div>
+
+    <!-- Main entry point — Vite processes this JSX module and injects React -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+
+</html>
