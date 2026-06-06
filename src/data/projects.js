@@ -14,10 +14,8 @@ export const projects = [
     gradient: 'from-violet-900 via-purple-800 to-violet-600',
     accentColor: '#a855f7',                   // Matches the gradient for glow effects
     emoji: '🌍',                              // Decorative icon shown on the card
-    image: '/assets/img/PT/PTCoverPage.png',  // Cover image shown on project card
-    images: [                                 // All images for this project (case study gallery)
-      '/assets/img/PT/PTCoverPage.png',
-    ],
+    image: 'assets/img/PT/PTCoverPage.png',
+    images: ['assets/img/PT/PTCoverPage.png'],
   },
   {
     id: 2,
@@ -30,10 +28,8 @@ export const projects = [
     gradient: 'from-blue-900 via-indigo-800 to-blue-600',
     accentColor: '#6366f1',
     emoji: '🎟️',
-    image: '/assets/img/Ticketing.jpg',
-    images: [
-      '/assets/img/Ticketing.jpg',
-    ],
+    image: 'assets/img/Ticketing.jpg',
+    images: ['assets/img/Ticketing.jpg'],
   },
   {
     id: 3,
@@ -46,10 +42,8 @@ export const projects = [
     gradient: 'from-emerald-900 via-teal-800 to-emerald-600',
     accentColor: '#10b981',
     emoji: '✈️',
-    image: '/assets/img/TripMatch/TripMatch.jpg',
-    images: [
-      '/assets/img/TripMatch/TripMatch.jpg',
-    ],
+    image: 'assets/img/TripMatch/TripMatch.jpg',
+    images: ['assets/img/TripMatch/TripMatch.jpg'],
   },
   {
     id: 4,
@@ -62,13 +56,13 @@ export const projects = [
     gradient: 'from-orange-900 via-amber-800 to-orange-600',
     accentColor: '#f59e0b',
     emoji: '📊',
-    image: '/assets/img/VantaBusiness/VantaCoverPage.png',
-    images: [                                 // Full case study image set
-      '/assets/img/VantaBusiness/VantaCoverPage.png',
-      '/assets/img/VantaBusiness/theChallenge.png',
-      '/assets/img/VantaBusiness/ProductObjective.png',
-      '/assets/img/VantaBusiness/DesignProcess.png',
-      '/assets/img/VantaBusiness/ProductFeature.png',
+    image: 'assets/img/VantaBusiness/VantaCoverPage.png',
+    images: [
+      'assets/img/VantaBusiness/VantaCoverPage.png',
+      'assets/img/VantaBusiness/theChallenge.png',
+      'assets/img/VantaBusiness/ProductObjective.png',
+      'assets/img/VantaBusiness/DesignProcess.png',
+      'assets/img/VantaBusiness/ProductFeature.png',
     ],
   },
   {
@@ -82,10 +76,10 @@ export const projects = [
     gradient: 'from-pink-900 via-rose-800 to-pink-600',
     accentColor: '#ec4899',
     emoji: '✨',
-    image: '/assets/img/Dashboard.png',
+    image: 'assets/img/Dashboard.png',
     images: [
-      '/assets/img/Dashboard.png',
-      '/assets/img/Dashboard Two.png',
+      'assets/img/Dashboard.png',
+      'assets/img/Dashboard Two.png',
     ],
   },
 ]

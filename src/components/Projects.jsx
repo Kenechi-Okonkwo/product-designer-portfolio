@@ -74,7 +74,7 @@ function CaseStudyModal({ project, onClose }) {
             project.images.map((src, i) => (
               <img
                 key={i}
-                src={src}
+                src={import.meta.env.BASE_URL + src}
                 alt={`${project.name} — image ${i + 1}`}
                 className="max-h-screen w-auto mx-auto rounded-xl object-contain"
                 loading="lazy"
@@ -114,7 +114,7 @@ function ProjectCard({ project, index, onOpenCaseStudy }) {
       >
         {project.image ? (
           <img
-            src={project.image}
+            src={import.meta.env.BASE_URL + project.image}
             alt={project.name}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
