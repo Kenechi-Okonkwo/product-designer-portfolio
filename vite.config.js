@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react'
 
 // Export the Vite configuration object
 export default defineConfig({
-  // Register the React plugin so Vite knows how to process .jsx files
   plugins: [react()],
+  // Required for GitHub Pages — sets the asset base path to the repo name
+  base: '/new-ai-port/',
 })
