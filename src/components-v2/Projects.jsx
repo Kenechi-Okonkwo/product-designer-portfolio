@@ -65,11 +65,11 @@ function ProjectRow({ project, index, inView, onOpen }) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onClick={() => onOpen(project)}
-      className="flex items-center gap-6 py-6 border-b border-[#DDD6CA] cursor-pointer group
-                 hover:bg-[#EDE8DF] -mx-4 px-4 transition-colors duration-200">
+      className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 py-6 border-b border-[#DDD6CA]
+                 cursor-pointer group hover:bg-[#EDE8DF] -mx-4 px-4 transition-colors duration-200">
 
-      {/* Thumbnail — square corners, 5% larger than original */}
-      <div className="w-[121px] h-[85px] md:w-[170px] md:h-[121px] overflow-hidden shrink-0 bg-[#EDE8DF]">
+      {/* Thumbnail — full width on mobile, fixed on desktop */}
+      <div className="w-full h-48 md:w-[170px] md:h-[121px] overflow-hidden shrink-0 bg-[#EDE8DF]">
         {project.image
           ? <img src={import.meta.env.BASE_URL + project.image} alt={project.name}
                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
