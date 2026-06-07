@@ -92,12 +92,12 @@ function Hero() {
 
       {/* Scroll indicator */}
       <motion.button
-        onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
+        onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 6, 0] }}
         transition={{ delay: 2, duration: 1.5, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[#8C7B6B]
-                   hover:text-[#1A1410] transition-colors"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[#1A1410]
+                   hover:opacity-50 transition-opacity"
         aria-label="Scroll down">
         <HiArrowDown size={20} />
       </motion.button>
