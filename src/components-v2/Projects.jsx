@@ -66,10 +66,10 @@ function ProjectRow({ project, index, inView, onOpen }) {
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onClick={() => onOpen(project)}
       className="flex items-center gap-6 py-6 border-b border-[#DDD6CA] cursor-pointer group
-                 hover:bg-[#EDE8DF] -mx-4 px-4 rounded-xl transition-colors duration-200">
+                 hover:bg-[#EDE8DF] -mx-4 px-4 transition-colors duration-200">
 
-      {/* Thumbnail */}
-      <div className="w-20 h-14 md:w-28 md:h-20 rounded-lg overflow-hidden shrink-0 bg-[#EDE8DF]">
+      {/* Thumbnail — square corners, 5% larger than original */}
+      <div className="w-[84px] h-[59px] md:w-[118px] md:h-[84px] overflow-hidden shrink-0 bg-[#EDE8DF]">
         {project.image
           ? <img src={import.meta.env.BASE_URL + project.image} alt={project.name}
                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -89,11 +89,16 @@ function ProjectRow({ project, index, inView, onOpen }) {
           </h3>
           <span className="text-[#8C7B6B] text-xs hidden md:block">{project.category}</span>
         </div>
-        <p className="text-[#8C7B6B] text-sm mb-2 line-clamp-1">{project.tagline}</p>
+        <p className="text-[#8C7B6B] text-xs font-medium uppercase tracking-wider mb-1">
+          {project.tagline}
+        </p>
+        <p className="text-[#8C7B6B] text-sm leading-relaxed mb-3 line-clamp-2">
+          {project.description}
+        </p>
         <div className="flex flex-wrap gap-2">
-          {project.tech.slice(0, 3).map(tag => (
+          {project.tech.map(tag => (
             <span key={tag}
-                  className="px-2 py-0.5 border border-[#DDD6CA] rounded text-xs text-[#8C7B6B]">
+                  className="px-2 py-0.5 border border-[#DDD6CA] text-xs text-[#8C7B6B]">
               {tag}
             </span>
           ))}
