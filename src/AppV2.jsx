@@ -18,7 +18,7 @@ import Footer     from './components-v2/Footer'
 function AppV2() {
   return (
     // Deep navy base — the V2 design system background (#020817)
-    <div className="bg-[#020817] text-white overflow-x-hidden">
+    <div className="bg-[#F5F0E8] text-[#1A1410] overflow-x-hidden">
       {/* Blue-accent frosted navigation */}
       <Navbar />
 

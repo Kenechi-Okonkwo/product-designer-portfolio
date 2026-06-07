@@ -1,143 +1,145 @@
-// V2 Projects — Bento Grid layout
-// Cards are laid out in an asymmetric bento grid: the first project is featured (tall),
-// the remaining cards fill a standard grid. All cards use glassmorphism styling.
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { HiArrowTopRightOnSquare } from 'react-icons/hi2'
-import { HiEye } from 'react-icons/hi'
+import { HiXMark } from 'react-icons/hi2'
 import { projects, filterTabs } from '../data/projects'
 
-// BentoCard — renders a single glassmorphism project card
-function BentoCard({ project, featured, index }) {
-  // hovered — controls the description overlay visibility
-  const [hovered, setHovered] = useState(false)
+// Case study modal — warm cream version
+function CaseStudyModal({ project, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
+
+  useEffect(() => {
+    const handleKey = e => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [onClose])
 
   return (
-    <motion.div
-      layout                                            // Smooth position animation on filter change
-      initial={{ opacity: 0, scale: 0.95 }}            // Starts slightly scaled down and invisible
-      animate={{ opacity: 1, scale: 1 }}               // Grows to full size
-      exit={{ opacity: 0, scale: 0.9 }}                // Shrinks on filter removal
-      transition={{ duration: 0.4, delay: index * 0.07 }}
-      onMouseEnter={() => setHovered(true)}             // Show overlay on mouse enter
-      onMouseLeave={() => setHovered(false)}            // Hide overlay on mouse leave
-      // featured card is taller — spans 2 rows in the CSS grid
-      className={`relative overflow-hidden rounded-3xl cursor-pointer group
-                  bg-white/5 backdrop-blur-md border border-white/10
-                  hover:border-blue-400/30 hover:shadow-2xl hover:shadow-blue-500/10
-                  transition-all duration-300
-                  ${featured ? 'row-span-2' : ''}`}
-      style={{ minHeight: featured ? '420px' : '240px' }} // Taller for featured card
-    >
-      {/* Gradient background — unique per project */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-30
-                       transition-opacity duration-500 group-hover:opacity-50`} />
+    <motion.div key="backdrop"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-50 flex items-stretch justify-center bg-[#1A1410]/60 backdrop-blur-sm"
+      onClick={onClose}>
+      <motion.div
+        initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+        transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="relative w-full h-screen bg-[#F5F0E8] overflow-hidden flex flex-col"
+        onClick={e => e.stopPropagation()}>
 
-      {/* Dot-grid texture overlay */}
-      <div className="absolute inset-0 opacity-[0.07]"
-           style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }}
-           aria-hidden="true" />
-
-      {/* Card content */}
-      <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-        {/* Top: emoji + category */}
-        <div className="flex items-start justify-between">
-          <span className={`transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6
-                            ${featured ? 'text-5xl' : 'text-3xl'}`}>
-            {project.emoji}
-          </span>
-          {/* Category badge — blue-tinted glassmorphism pill */}
-          <span className="px-3 py-1 bg-blue-500/20 backdrop-blur-sm rounded-full text-xs
-                           text-blue-300 font-medium uppercase tracking-wider border border-blue-400/20">
-            {project.category}
-          </span>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#DDD6CA] flex-shrink-0">
+          <div>
+            <span className="text-xl mr-2">{project.emoji}</span>
+            <span className="font-display font-bold text-[#1A1410] text-lg">{project.name}</span>
+            <p className="text-[#8C7B6B] text-sm mt-0.5">{project.tagline}</p>
+          </div>
+          <button onClick={onClose}
+                  className="p-2 rounded-full border border-[#DDD6CA] hover:border-[#1A1410]
+                             text-[#8C7B6B] hover:text-[#1A1410] transition-all duration-200"
+                  aria-label="Close">
+            <HiXMark size={20} />
+          </button>
         </div>
 
-        {/* Bottom: project name, tagline, and tags */}
-        <div className="mt-6">
-          <h3 className={`font-display font-bold text-white mb-1 ${featured ? 'text-2xl' : 'text-lg'}`}>
+        <div className="overflow-y-auto flex-1 px-6 py-6 space-y-4">
+          {project.images && project.images.length > 0
+            ? project.images.map((src, i) => (
+                <img key={i} src={import.meta.env.BASE_URL + src}
+                     alt={`${project.name} — image ${i + 1}`}
+                     className="max-h-screen w-auto mx-auto rounded-xl object-contain" loading="lazy" />
+              ))
+            : <p className="text-[#8C7B6B] text-center py-12">No case study images yet.</p>
+          }
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// Single project row — horizontal layout
+function ProjectRow({ project, index, inView, onOpen }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      onClick={() => onOpen(project)}
+      className="flex items-center gap-6 py-6 border-b border-[#DDD6CA] cursor-pointer group
+                 hover:bg-[#EDE8DF] -mx-4 px-4 rounded-xl transition-colors duration-200">
+
+      {/* Thumbnail */}
+      <div className="w-20 h-14 md:w-28 md:h-20 rounded-lg overflow-hidden shrink-0 bg-[#EDE8DF]">
+        {project.image
+          ? <img src={import.meta.env.BASE_URL + project.image} alt={project.name}
+                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          : <div className={`w-full h-full bg-gradient-to-br ${project.gradient} opacity-70
+                             flex items-center justify-center text-2xl`}>
+              {project.emoji}
+            </div>
+        }
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-3 mb-1">
+          <h3 className="font-display font-bold text-base md:text-lg text-[#1A1410]
+                         group-hover:opacity-70 transition-opacity duration-200">
             {project.name}
           </h3>
-          <p className="text-slate-400 text-sm mb-4">{project.tagline}</p>
-
-          {/* Tech tags */}
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map(tag => (
-              <span key={tag} className="px-2 py-0.5 bg-white/10 rounded text-xs text-slate-300">
-                {tag}
-              </span>
-            ))}
-          </div>
+          <span className="text-[#8C7B6B] text-xs hidden md:block">{project.category}</span>
+        </div>
+        <p className="text-[#8C7B6B] text-sm mb-2 line-clamp-1">{project.tagline}</p>
+        <div className="flex flex-wrap gap-2">
+          {project.tech.slice(0, 3).map(tag => (
+            <span key={tag}
+                  className="px-2 py-0.5 border border-[#DDD6CA] rounded text-xs text-[#8C7B6B]">
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Hover overlay — slides up from the bottom to reveal full description */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            initial={{ y: '100%' }}                     // Starts below the card
-            animate={{ y: 0 }}                          // Slides up to fill the card
-            exit={{ y: '100%' }}                        // Slides back down on mouse leave
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="absolute inset-0 z-20 bg-[#020817]/95 backdrop-blur-sm p-6
-                       flex flex-col justify-between border border-blue-400/20"
-          >
-            <div>
-              <span className={`block mb-3 ${featured ? 'text-4xl' : 'text-3xl'}`}>{project.emoji}</span>
-              <h3 className="font-display font-bold text-lg text-white mb-3">{project.name}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{project.description}</p>
-            </div>
-            {/* Action buttons */}
-            <div className="flex gap-3 mt-4">
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white text-sm
-                                 font-semibold rounded-lg hover:bg-blue-400 transition-colors">
-                <HiEye size={15} /> Case Study
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/10
-                                 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors">
-                <HiArrowTopRightOnSquare size={15} /> View Live
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Arrow */}
+      <span className="text-[#8C7B6B] group-hover:text-[#1A1410] group-hover:translate-x-1
+                       transition-all duration-200 shrink-0 text-lg">→</span>
     </motion.div>
   )
 }
 
 function Projects() {
-  const [activeFilter, setActiveFilter] = useState('all')
-  const ref = useRef(null)
+  const [activeFilter, setActiveFilter]   = useState('all')
+  const [selectedProject, setSelectedProject] = useState(null)
+  const ref   = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
-  // Filter projects by active tab
-  const visible = activeFilter === 'all' ? projects : projects.filter(p => p.category === activeFilter)
+  const visible = activeFilter === 'all'
+    ? projects
+    : projects.filter(p => p.category === activeFilter)
 
   return (
-    <section id="projects" ref={ref} className="py-24 px-6 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" ref={ref} className="py-24 px-6 md:px-12 lg:px-24 border-t border-[#DDD6CA]">
+      <div className="max-w-6xl mx-auto">
 
-        {/* Section header */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }} className="mb-12">
-          <span className="text-blue-400 text-sm font-semibold uppercase tracking-widest">Selected Work</span>
-          {/* Accent line — blue for V2 */}
-          <span className="block w-10 h-0.5 bg-blue-400 rounded-full mt-2 mb-6" />
+          <span className="text-[#8C7B6B] text-xs font-semibold uppercase tracking-widest mb-4 block">
+            Selected Work
+          </span>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <h2 className="font-display font-bold text-4xl md:text-5xl text-white">
-              Work that <span className="text-blue-400">speaks.</span>
+            <h2 className="font-display font-bold text-3xl md:text-4xl text-[#1A1410]">
+              Projects that speak<br />for themselves.
             </h2>
 
-            {/* Filter tabs — blue active state */}
+            {/* Filter tabs */}
             <div className="flex gap-2">
               {filterTabs.map(tab => (
                 <button key={tab.value} onClick={() => setActiveFilter(tab.value)}
-                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-250
+                        className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
                           ${activeFilter === tab.value
-                            ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                            : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:border-blue-400/30'}`}>
+                            ? 'bg-[#1A1410] text-[#F5F0E8]'
+                            : 'border border-[#DDD6CA] text-[#8C7B6B] hover:border-[#1A1410] hover:text-[#1A1410]'}`}>
                   {tab.label}
                 </button>
               ))}
@@ -145,25 +147,26 @@ function Projects() {
           </div>
         </motion.div>
 
-        {/* ── BENTO GRID ──────────────────────────────────────────────────────
-            CSS Grid with auto rows — the first card gets row-span-2 via the BentoCard component.
-            On mobile it falls back to a standard single-column layout. */}
-        <motion.div layout
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
-          style={{ gridAutoRows: '200px' }}         // Each row is 200px; featured spans 2 = 420px
-        >
+        {/* Project list */}
+        <div className="border-t border-[#DDD6CA]">
           <AnimatePresence mode="popLayout">
             {visible.map((project, i) => (
-              <BentoCard
-                key={project.id}
-                project={project}
-                featured={i === 0}                  // Only the first card in the list is featured
-                index={i}
-              />
+              <ProjectRow key={project.id} project={project} index={i}
+                          inView={inView} onOpen={setSelectedProject} />
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
+
+        {visible.length === 0 && (
+          <p className="text-center py-16 text-[#8C7B6B]">No projects in this category yet.</p>
+        )}
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <CaseStudyModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+        )}
+      </AnimatePresence>
     </section>
   )
 }
