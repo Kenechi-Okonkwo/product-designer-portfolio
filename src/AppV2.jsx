@@ -6,7 +6,6 @@ import React from 'react'
 // Import all V2 components — each is a redesign of the V1 equivalent
 import Navbar     from './components-v2/Navbar'
 import Hero       from './components-v2/Hero'
-import Stats      from './components-v2/Stats'
 import Projects   from './components-v2/Projects'
 import Skills     from './components-v2/Skills'
 import Experience from './components-v2/Experience'
@@ -24,7 +23,6 @@ function AppV2() {
       <main>
         {/* Full-viewport blue hero — typewriter, CTAs, glow blobs */}
         <Hero />
-        <Stats />
         {/* Bento grid — mixed-size glass project cards */}
         <Projects />
         {/* Tag cloud skills with blue glow on hover */}

@@ -88,19 +88,6 @@ function Hero() {
           </a>
         </motion.div>
 
-        {/* Stats row */}
-        <motion.div variants={item} className="flex items-center gap-10 pt-8 border-t border-[#DDD6CA]">
-          {[
-            { value: '3+', label: 'Years Experience' },
-            { value: '5+', label: 'Projects Shipped' },
-            { value: '4+', label: 'Industries' },
-          ].map(s => (
-            <div key={s.label}>
-              <div className="font-display font-bold text-2xl text-[#1A1410]">{s.value}</div>
-              <div className="text-[#8C7B6B] text-xs mt-0.5">{s.label}</div>
-            </div>
-          ))}
-        </motion.div>
       </motion.div>
 
       {/* Scroll indicator */}
