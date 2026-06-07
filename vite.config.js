@@ -8,5 +8,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   // Required for GitHub Pages — sets the asset base path to the repo name
-  base: '/new-ai-port/',
+  base: '/product-designer-portfolio/',
 })
