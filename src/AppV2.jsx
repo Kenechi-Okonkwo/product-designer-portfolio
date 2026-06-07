@@ -6,7 +6,6 @@ import React from 'react'
 // Import all V2 components — each is a redesign of the V1 equivalent
 import Navbar     from './components-v2/Navbar'
 import Hero       from './components-v2/Hero'
-import About      from './components-v2/About'
 import Stats      from './components-v2/Stats'
 import Projects   from './components-v2/Projects'
 import Skills     from './components-v2/Skills'
@@ -25,9 +24,6 @@ function AppV2() {
       <main>
         {/* Full-viewport blue hero — typewriter, CTAs, glow blobs */}
         <Hero />
-        {/* Glass hero panel — wide glassmorphism card with name + quick stats */}
-        <About />
-        {/* Animated counters — blue accent */}
         <Stats />
         {/* Bento grid — mixed-size glass project cards */}
         <Projects />
