@@ -98,16 +98,18 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #080808;
+    background: #F5F0E8;
   }
   ::-webkit-scrollbar-thumb {
-    background: #a855f7;
+    background: #C4B9AC;
     border-radius: 3px;
   }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1A1410;
+  }
 
-  /* Focus ring — visible keyboard focus indicator for accessibility */
   :focus-visible {
-    outline: 2px solid #a855f7;
+    outline: 2px solid #1A1410;
     outline-offset: 3px;
   }
 }
