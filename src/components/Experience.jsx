@@ -1,10 +1,7 @@
-// Import React
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { HiPlus, HiMinus } from 'react-icons/hi'
 
-// Framer Motion for scroll-triggered timeline animations
-import { motion, useInView } from 'framer-motion'
-
-// Timeline data — real career history from CV
 const timeline = [
   {
     id: 1,
@@ -19,7 +16,6 @@ const timeline = [
       'Reduced user churn by 20%+ through systematic optimisation of onboarding flows, content interaction patterns, and learning journey UX.',
       'Partnered cross-functionally with product managers and engineers to deliver user-centred solutions, resolving friction points and measurably improving task completion rates.',
       'Architected a scalable design system supporting multi-language expansion across African dialects, accelerating feature delivery velocity.',
-      'Established and led usability testing protocols — synthesising qualitative feedback into iterative prototype improvements, enhancing accessibility and learner satisfaction.',
     ],
   },
   {
@@ -45,7 +41,7 @@ const timeline = [
       'Conducted qualitative and quantitative user research to map digital behaviours, informing data-driven UX strategy.',
       'Defined and executed UI/UX strategies aligned with business KPIs and target audience goals.',
       'Produced high-fidelity wireframes, interactive prototypes, and interface design files using Figma, streamlining design-to-development handoff.',
-      'Built and maintained modular, reusable front-end components (HTML, CSS, JavaScript), ensuring cross-browser compatibility and performance.',
+      'Built and maintained modular, reusable front-end components ensuring cross-browser compatibility and performance.',
     ],
   },
   {
@@ -73,8 +69,80 @@ const timeline = [
   },
 ]
 
+function ExperienceRow({ item, index, inView }) {
+  const [open, setOpen] = useState(index === 0)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className="border-b border-border"
+    >
+      {/* Clickable header row */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-6 py-6 text-left group"
+      >
+        {/* Current role pulse dot */}
+        {item.type === 'current' && (
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse shrink-0" />
+        )}
+        {item.type !== 'current' && (
+          <span className="w-2 h-2 rounded-full bg-border shrink-0" />
+        )}
+
+        {/* Role + company */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-display font-bold text-base md:text-lg text-white
+                         group-hover:text-accent transition-colors duration-200">
+            {item.role}
+          </h3>
+          <p className="text-accent text-sm font-medium mt-0.5">{item.company}
+            <span className="text-muted font-normal"> · {item.location}</span>
+          </p>
+        </div>
+
+        {/* Period — hidden on mobile, shown on desktop */}
+        <span className="text-muted text-sm shrink-0 hidden md:block">{item.period}</span>
+
+        {/* Toggle icon */}
+        <span className="w-8 h-8 rounded-full border border-border flex items-center justify-center
+                         text-muted group-hover:border-accent/40 group-hover:text-accent
+                         transition-all duration-200 shrink-0">
+          {open ? <HiMinus size={14} /> : <HiPlus size={14} />}
+        </span>
+      </button>
+
+      {/* Period on mobile */}
+      <p className="text-muted text-xs md:hidden -mt-3 mb-3 pl-8">{item.period}</p>
+
+      {/* Expandable bullets */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="overflow-hidden"
+          >
+            <ul className="pb-8 pl-8 space-y-3">
+              {item.bullets.map((bullet) => (
+                <li key={bullet} className="flex items-start gap-3 text-sm text-muted">
+                  <span className="text-accent mt-1 shrink-0">—</span>
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+
 function Experience() {
-  // Observe the section for scroll-triggered animations
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -82,92 +150,19 @@ function Experience() {
     <section id="experience" ref={ref} className="section-padding">
       <div className="max-w-7xl mx-auto">
 
-        {/* ── SECTION HEADER ──────────────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
-        >
-          <span className="text-accent text-sm font-semibold uppercase tracking-widest">
-            Journey
-          </span>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }} className="mb-14">
+          <span className="text-accent text-sm font-semibold uppercase tracking-widest">Journey</span>
           <span className="accent-line" />
           <h2 className="section-heading">
-            Experience &amp; <span className="gradient-text">Timeline.</span>
+            Work <span className="gradient-text">Experience.</span>
           </h2>
         </motion.div>
 
-        {/* ── TIMELINE ────────────────────────────────────────────────────── */}
-        {/* Relative container so the vertical line can be absolutely positioned */}
-        <div className="relative">
-
-          {/* Vertical connecting line — runs the full height of the timeline */}
-          <div className="absolute left-4 md:left-6 top-0 bottom-0 w-px bg-border" aria-hidden="true" />
-
-          {/* Timeline entries */}
-          <div className="space-y-12">
-            {timeline.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -30 }}               // Slides in from the left
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.2 }} // Stagger per item
-                className="relative flex gap-8 md:gap-12"
-              >
-                {/* ── TIMELINE DOT ────────────────────────────────────── */}
-                {/* Positioned on the vertical line */}
-                <div className="relative flex-shrink-0 mt-1">
-                  {item.type === 'current' ? (
-                    // Current role: pulsing accent dot (signals "active now")
-                    <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-accent/10 border-2 border-accent
-                                    flex items-center justify-center">
-                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse" />
-                    </div>
-                  ) : (
-                    // Past roles: solid grey dot
-                    <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-surface border-2 border-border
-                                    flex items-center justify-center">
-                      <span className="w-3 h-3 rounded-full bg-muted" />
-                    </div>
-                  )}
-                </div>
-
-                {/* ── ENTRY CONTENT ────────────────────────────────────── */}
-                <div className="card p-6 flex-1 hover:border-accent/30 transition-colors duration-300">
-
-                  {/* Header row: role + date range */}
-                  <div className="flex flex-wrap items-start justify-between gap-3 mb-1">
-                    <div>
-                      {/* Role title */}
-                      <h3 className="font-display font-bold text-lg text-white">{item.role}</h3>
-                      {/* Company and location */}
-                      <p className="text-accent text-sm font-medium">{item.company}</p>
-                      {item.location && (
-                        <p className="text-muted text-xs mt-0.5">{item.location}</p>
-                      )}
-                    </div>
-
-                    {/* Date range badge */}
-                    <span className="px-3 py-1 bg-surface border border-border rounded-full text-xs text-muted">
-                      {item.period}
-                    </span>
-                  </div>
-
-                  {/* Bullet points */}
-                  <ul className="mt-4 space-y-2">
-                    {item.bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-2 text-sm text-muted">
-                        {/* Small accent dash before each bullet */}
-                        <span className="text-accent mt-1 shrink-0">—</span>
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        <div className="border-t border-border">
+          {timeline.map((item, i) => (
+            <ExperienceRow key={item.id} item={item} index={i} inView={inView} />
+          ))}
         </div>
 
       </div>
