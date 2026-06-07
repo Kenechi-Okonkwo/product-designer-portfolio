@@ -69,7 +69,7 @@ function ProjectRow({ project, index, inView, onOpen }) {
                  hover:bg-[#EDE8DF] -mx-4 px-4 transition-colors duration-200">
 
       {/* Thumbnail — square corners, 5% larger than original */}
-      <div className="w-[97px] h-[68px] md:w-[136px] md:h-[97px] overflow-hidden shrink-0 bg-[#EDE8DF]">
+      <div className="w-[121px] h-[85px] md:w-[170px] md:h-[121px] overflow-hidden shrink-0 bg-[#EDE8DF]">
         {project.image
           ? <img src={import.meta.env.BASE_URL + project.image} alt={project.name}
                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
