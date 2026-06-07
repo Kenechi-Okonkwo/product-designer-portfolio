@@ -39,7 +39,7 @@ function Hero() {
     <section id="hero" className="relative min-h-screen flex flex-col justify-center
                                    px-6 md:px-12 lg:px-24">
       <motion.div variants={container} initial="hidden" animate="show"
-                  className="max-w-6xl mx-auto w-full pt-20">
+                  className="max-w-6xl mx-auto w-full pt-20 flex flex-col items-center text-center">
 
         {/* Availability */}
         <motion.div variants={item} className="mb-8">
@@ -67,7 +67,7 @@ function Hero() {
 
         {/* Tagline */}
         <motion.p variants={item}
-                  className="text-[#8C7B6B] text-base md:text-lg leading-relaxed max-w-lg mb-10">
+                  className="text-[#8C7B6B] text-base md:text-lg leading-relaxed max-w-md mb-10">
           Turning complex problems into clean, functional interfaces that people actually enjoy using.
         </motion.p>
 
