@@ -72,16 +72,16 @@ function Hero() {
         </motion.p>
 
         {/* CTAs */}
-        <motion.div variants={item} className="flex flex-wrap gap-4 mb-20">
+        <motion.div variants={item} className="flex flex-wrap justify-center gap-4 mb-20">
           <a href="#projects"
              onClick={e => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }) }}
-             className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1A1410] text-[#F5F0E8]
+             className="inline-flex items-center justify-center gap-2 w-44 py-3.5 bg-[#1A1410] text-[#F5F0E8]
                         font-semibold text-sm rounded-lg hover:opacity-80 transition-all duration-200 group">
             View My Work
             <HiArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
           </a>
           <a href="mailto:okonkwokenee@gmail.com"
-             className="inline-flex items-center gap-2 px-7 py-3.5 border border-[#DDD6CA]
+             className="inline-flex items-center justify-center gap-2 w-44 py-3.5 border border-[#DDD6CA]
                         text-[#1A1410] font-semibold text-sm rounded-lg
                         hover:border-[#1A1410] transition-all duration-200">
             Get In Touch
