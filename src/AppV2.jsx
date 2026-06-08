@@ -11,7 +11,6 @@ import Skills     from './components-v2/Skills'
 import Experience from './components-v2/Experience'
 import Interests  from './components-v2/Interests'
 import Contact    from './components-v2/Contact'
-import Footer     from './components-v2/Footer'
 
 function AppV2() {
   return (
@@ -34,8 +33,6 @@ function AppV2() {
         {/* Contact form — glass style */}
         <Contact />
       </main>
-
-      <Footer />
     </div>
   )
 }
