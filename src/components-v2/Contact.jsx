@@ -22,6 +22,12 @@ const links = [
     href:  'https://behance.net/keneokonkwo',
     external: true,
   },
+  {
+    label: 'View on GitHub',
+    sub:   'Kenechi-Dev',
+    href:  'https://github.com/kenechi-dev',
+    external: true,
+  },
 ]
 
 function Contact() {
