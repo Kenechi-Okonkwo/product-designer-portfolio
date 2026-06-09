@@ -25,7 +25,7 @@ const links = [
   {
     label: 'View on GitHub',
     sub:   'Kenechi-Dev',
-    href:  'https://github.com/kenechi-dev',
+    href:  'https://github.com/Kenechi-Okonkwo',
     external: true,
   },
 ]
