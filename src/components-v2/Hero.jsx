@@ -58,7 +58,6 @@ function Hero() {
 
         {/* Typewriter role */}
         <motion.div variants={item} className="flex items-center gap-3 mb-6 h-9">
-          <span className="text-[#8C7B6B] text-lg">—</span>
           <span className="text-[#1A1410] font-medium text-lg font-display">
             {displayed}
             <span className="inline-block w-0.5 h-5 bg-[#1A1410] ml-0.5 animate-pulse align-middle" />
