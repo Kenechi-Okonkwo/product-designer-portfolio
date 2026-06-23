@@ -61,7 +61,7 @@ function CaseStudyModal({ project, onClose }) {
                   {project.headlineImages.map((src, i) => (
                     <img key={i} src={import.meta.env.BASE_URL + src}
                          alt={`${project.name} headline image ${i + 1}`}
-                         className="w-[75px] h-[75px] md:w-[300px] md:h-[300px] object-cover" loading="lazy" />
+                         className="w-[225px] h-[225px] md:w-[300px] md:h-[300px] object-cover" loading="lazy" />
                   ))}
                 </div>
               )}
