@@ -57,11 +57,11 @@ function CaseStudyModal({ project, onClose }) {
                 </p>
               )}
               {project.headlineImages && (
-                <div className="flex justify-center gap-4 mt-12">
+                <div className="flex flex-wrap justify-center gap-4 mt-12">
                   {project.headlineImages.map((src, i) => (
                     <img key={i} src={import.meta.env.BASE_URL + src}
                          alt={`${project.name} headline image ${i + 1}`}
-                         className="w-[300px] h-[300px] object-cover" loading="lazy" />
+                         className="w-[150px] h-[150px] md:w-[300px] md:h-[300px] object-cover" loading="lazy" />
                   ))}
                 </div>
               )}
@@ -102,12 +102,14 @@ function CaseStudyModal({ project, onClose }) {
                 </p>
               )}
               {project.appOverviewText && (
-                <div className="w-full mt-10 flex flex-row items-center justify-center gap-6 p-10"
-                     style={{ backgroundColor: '#127FBE', height: '1080px' }}>
+                <div className="w-full mt-10 flex flex-col md:flex-row items-center justify-center
+                                gap-4 md:gap-6 p-6 md:p-10 h-auto md:h-[1080px]"
+                     style={{ backgroundColor: '#127FBE' }}>
                   {['Home Screen One.png', 'Home Screen Two.png', 'Home Screen Three.png'].map((name, i) => (
                     <img key={i} src={import.meta.env.BASE_URL + `assets/img/PT/${name}`}
                          alt={`Pluritongues ${name.replace('.png', '')}`}
-                         className="object-contain" style={{ height: '85%' }} loading="lazy" />
+                         className="object-contain w-4/5 max-h-[360px] md:w-auto md:max-h-none md:h-[85%]"
+                         loading="lazy" />
                   ))}
                 </div>
               )}
@@ -124,8 +126,8 @@ function CaseStudyModal({ project, onClose }) {
                 </p>
               )}
               {project.competitorsText && (
-                <div className="w-full mt-10"
-                     style={{ backgroundColor: '#127FBE', height: '1080px' }} />
+                <div className="w-full mt-10 h-[400px] md:h-[1080px]"
+                     style={{ backgroundColor: '#127FBE' }} />
               )}
             </div>
           )}
