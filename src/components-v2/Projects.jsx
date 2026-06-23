@@ -43,13 +43,99 @@ function CaseStudyModal({ project, onClose }) {
         </div>
 
         <div className="overflow-y-auto flex-1 px-6 py-6 space-y-4">
+          {project.headline && (
+            <div className="text-center py-12 md:py-20 mx-auto w-full">
+              <h1 className="font-display font-bold text-3xl md:text-5xl text-[#1A1410]
+                             leading-tight whitespace-pre-line mb-8 mx-auto"
+                  style={{ maxWidth: '1000px' }}>
+                {project.headline}
+              </h1>
+              {project.subtext && (
+                <p className="text-[#8C7B6B] text-base md:text-lg leading-relaxed mx-auto"
+                   style={{ maxWidth: '800px' }}>
+                  {project.subtext}
+                </p>
+              )}
+              {project.headlineImages && (
+                <div className="flex justify-center gap-4 mt-12">
+                  {project.headlineImages.map((src, i) => (
+                    <img key={i} src={import.meta.env.BASE_URL + src}
+                         alt={`${project.name} headline image ${i + 1}`}
+                         className="w-[300px] h-[300px] object-cover" loading="lazy" />
+                  ))}
+                </div>
+              )}
+              {project.overviewTitle && (
+                <h2 className="font-display font-bold text-2xl md:text-3xl text-[#1A1410]
+                               mt-16 mb-6">
+                  {project.overviewTitle}
+                </h2>
+              )}
+              {project.overviewText && (
+                <p className="text-[#8C7B6B] text-base md:text-lg leading-relaxed whitespace-pre-line mx-auto"
+                   style={{ maxWidth: '800px' }}>
+                  {project.overviewText}
+                </p>
+              )}
+              {project.goalsTitle && (
+                <h2 className="font-display font-bold text-2xl md:text-3xl text-[#1A1410]
+                               mt-16 mb-6">
+                  {project.goalsTitle}
+                </h2>
+              )}
+              {project.goalsText && (
+                <p className="text-[#8C7B6B] text-base md:text-lg leading-relaxed whitespace-pre-line mx-auto"
+                   style={{ maxWidth: '800px' }}>
+                  {project.goalsText}
+                </p>
+              )}
+              {project.appOverviewTitle && (
+                <h2 className="font-display font-bold text-2xl md:text-3xl text-[#1A1410]
+                               mt-16 mb-6">
+                  {project.appOverviewTitle}
+                </h2>
+              )}
+              {project.appOverviewText && (
+                <p className="text-[#8C7B6B] text-base md:text-lg leading-relaxed whitespace-pre-line mx-auto"
+                   style={{ maxWidth: '800px' }}>
+                  {project.appOverviewText}
+                </p>
+              )}
+              {project.appOverviewText && (
+                <div className="w-full mt-10 flex flex-row items-center justify-center gap-6 p-10"
+                     style={{ backgroundColor: '#127FBE', height: '1080px' }}>
+                  {['Home Screen One.png', 'Home Screen Two.png', 'Home Screen Three.png'].map((name, i) => (
+                    <img key={i} src={import.meta.env.BASE_URL + `assets/img/PT/${name}`}
+                         alt={`Pluritongues ${name.replace('.png', '')}`}
+                         className="object-contain" style={{ height: '85%' }} loading="lazy" />
+                  ))}
+                </div>
+              )}
+              {project.competitorsTitle && (
+                <h2 className="font-display font-bold text-2xl md:text-3xl text-[#1A1410]
+                               mt-16 mb-6">
+                  {project.competitorsTitle}
+                </h2>
+              )}
+              {project.competitorsText && (
+                <p className="text-[#8C7B6B] text-base md:text-lg leading-relaxed whitespace-pre-line mx-auto"
+                   style={{ maxWidth: '800px' }}>
+                  {project.competitorsText}
+                </p>
+              )}
+              {project.competitorsText && (
+                <div className="w-full mt-10"
+                     style={{ backgroundColor: '#127FBE', height: '1080px' }} />
+              )}
+            </div>
+          )}
           {project.images && project.images.length > 0
             ? project.images.map((src, i) => (
                 <img key={i} src={import.meta.env.BASE_URL + src}
                      alt={`${project.name} — image ${i + 1}`}
                      className="max-h-screen w-auto mx-auto rounded-xl object-contain" loading="lazy" />
               ))
-            : <p className="text-[#8C7B6B] text-center py-12">No case study images yet.</p>
+            : null
           }
         </div>
       </motion.div>
