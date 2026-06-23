@@ -103,7 +103,7 @@ function CaseStudyModal({ project, onClose }) {
               )}
               {project.appOverviewText && (
                 <div className="w-full mt-10 flex flex-col md:flex-row items-center justify-center
-                                gap-4 md:gap-6 p-6 md:p-10 h-auto md:h-[1080px]"
+                                gap-8 md:gap-6 p-6 md:p-10 h-auto md:h-[1080px]"
                      style={{ backgroundColor: '#127FBE' }}>
                   {['Home Screen One.png', 'Home Screen Two.png', 'Home Screen Three.png'].map((name, i) => (
                     <img key={i} src={import.meta.env.BASE_URL + `assets/img/PT/${name}`}
